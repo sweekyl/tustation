@@ -74,13 +74,13 @@ public sealed partial class CreditsWindow : DefaultWindow
     // [Dependency] private readonly LinkAccountManager _linkAccount = default!; CorvaxGoob-Coins
 
     private static readonly Dictionary<string, int> PatronTierPriority = new()
-        {
-            ["Central Command"] = 1,
-            ["Captain"] = 2,
-            ["Station AI"] = 3,
-            ["Janitor"] = 4,
-            ["Assistant"] = 5,
-        };
+    {
+        ["Central Command"] = 1,
+        ["Captain"] = 2,
+        ["Station AI"] = 3,
+        ["Janitor"] = 4,
+        ["Assistant"] = 5,
+    };
 
     private readonly List<FormattedMessage> _attributions = [];
     private readonly ISawmill _sawmill = Logger.GetSawmill("Credits");
@@ -190,7 +190,7 @@ public sealed partial class CreditsWindow : DefaultWindow
                         throw new Exception("Missing a list of states.");
 
                     var copyright = copyrightNode.ToString();
-                    var files = states.Select(n => (MappingDataNode)n)
+                    var files = states.Select(n => (MappingDataNode) n)
                         .Select(n => n.Get("name") + ".png");
 
                     m.AddMarkupPermissive(_loc.GetString("credits-window-attributions-directory",
@@ -300,7 +300,7 @@ public sealed partial class CreditsWindow : DefaultWindow
         foreach (var entry in CreditsManager.GetLicenses(_resourceManager).OrderBy(p => p.Name))
         {
             licensesContainer.AddChild(new Label
-                { StyleClasses = { StyleBase.StyleClassLabelHeading }, Text = entry.Name });
+            { StyleClasses = { StyleBase.StyleClassLabelHeading }, Text = entry.Name });
 
             // We split these line by line because otherwise
             // the LGPL causes Clyde to go out of bounds in the rendering code.
@@ -315,15 +315,15 @@ public sealed partial class CreditsWindow : DefaultWindow
     {
         var patrons = LoadPatrons();
 
-            var linkPatreon = _cfg.GetCVar(CCVars.InfoLinksPatreon);
-            if (linkPatreon != "")
+        var linkPatreon = _cfg.GetCVar(CCVars.InfoLinksPatreon);
+        if (linkPatreon != "")
+        {
+            Button patronButton;
+            patronsContainer.AddChild(patronButton = new Button
             {
-                Button patronButton;
-                patronsContainer.AddChild(patronButton = new Button
-                {
-                    Text = Loc.GetString("credits-window-become-patron-button"),
-                    HorizontalAlignment = HAlignment.Center
-                });
+                Text = Loc.GetString("credits-window-become-patron-button"),
+                HorizontalAlignment = HAlignment.Center
+            });
 
             patronButton.OnPressed +=
                 _ => IoCManager.Resolve<IUriOpener>().OpenUri(linkPatreon);
@@ -337,7 +337,7 @@ public sealed partial class CreditsWindow : DefaultWindow
 
             first = false;
             patronsContainer.AddChild(new Label
-                { StyleClasses = { StyleBase.StyleClassLabelHeading }, Text = $"{tier.Key}" });
+            { StyleClasses = { StyleBase.StyleClassLabelHeading }, Text = $"{tier.Key}" });
 
             var msg = string.Join(", ", tier.OrderBy(p => p.Name).Select(p => p.Name));
 
@@ -348,11 +348,11 @@ public sealed partial class CreditsWindow : DefaultWindow
         }
     }
 
-        private IEnumerable<PatronEntry> LoadPatrons()
-        {
-            //return _linkAccount.GetPatrons().Select(p => new PatronEntry(p.Name, p.Tier)); CorvaxGoob-Coins
-            var yamlStream = _resourceManager.ContentFileReadYaml(new ("/Credits/Patrons.yml"));
-            var sequence = (YamlSequenceNode) yamlStream.Documents[0].RootNode;
+    private IEnumerable<PatronEntry> LoadPatrons()
+    {
+        //return _linkAccount.GetPatrons().Select(p => new PatronEntry(p.Name, p.Tier)); CorvaxGoob-Coins
+        var yamlStream = _resourceManager.ContentFileReadYaml(new("/Credits/Patrons.yml"));
+        var sequence = (YamlSequenceNode) yamlStream.Documents[0].RootNode;
 
         return sequence
             .Cast<YamlMappingNode>()
@@ -384,7 +384,7 @@ public sealed partial class CreditsWindow : DefaultWindow
 
             first = false;
             ss14ContributorsContainer.AddChild(new Label
-                { StyleClasses = { StyleBase.StyleClassLabelHeading }, Text = title });
+            { StyleClasses = { StyleBase.StyleClassLabelHeading }, Text = title });
 
             var label = new RichTextLabel();
             var text = _resourceManager.ContentFileReadAllText($"/Credits/{path}");
@@ -398,7 +398,7 @@ public sealed partial class CreditsWindow : DefaultWindow
 
         AddSection(Loc.GetString("credits-window-tts-title"), "TTS.txt"); // CorvaxGoob-TTS
         AddSection(Loc.GetString("credits-window-contributors-section-title"), "GitHub.txt");
-        AddSection(Loc.GetString("credits-window-corvax-contributors-section-title"), "CorvaxGitHub.txt"); // CorvaxGoob-Credits
+        AddSection(Loc.GetString("credits-window-corvax-contributors-section-title"), "GitHub.txt"); // CorvaxGoob-Credits
         AddSection(Loc.GetString("credits-window-codebases-section-title"), "SpaceStation13.txt");
         AddSection(Loc.GetString("credits-window-original-remake-team-section-title"), "OriginalRemake.txt");
         AddSection(Loc.GetString("credits-window-special-thanks-section-title"), "SpecialThanks.txt", true);

@@ -107,99 +107,103 @@
   description: A rooty tooty point and shooty.
   abstract: true
   components:
-  - type: Sprite
-    layers:
-      - state: base
-        map: ["enum.GunVisualLayers.Base"]
-      - state: mag-0
-        map: ["enum.GunVisualLayers.Mag"]
-  - type: Item
-    size: Small
-    shape:
-    - 0,0,1,0
-    - 0,1,0,1
-  - type: Tag
-    tags:
-    - Sidearm
-  - type: Clothing
-    sprite: Objects/Weapons/Guns/Pistols/viper.rsi
-    quickEquip: false
-    slots:
-    - suitStorage
-    - Belt
-  - type: Gun
-    fireRate: 6
-    selectedMode: SemiAuto
-    availableModes:
-      - SemiAuto
-      - FullAuto
-    soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
-  - type: ChamberMagazineAmmoProvider
-    soundRack:
-      path: /Audio/Weapons/Guns/Cock/pistol_cock.ogg
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        # name: Magazine # CorvaxGoob-Loc-in-UI
-        startingItem: MagazinePistol
-        insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazinePistol
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        # name: Chamber # CorvaxGoob-Loc-in-UI
-        startingItem: CartridgePistol
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgePistol
-  - type: ContainerContainer
-    containers:
-      gun_magazine: !type:ContainerSlot
-      gun_chamber: !type:ContainerSlot
-  - type: AmmoCounter
-  - type: MagazineVisuals
-    magState: mag
-    steps: 1
-    zeroVisible: true
-  - type: Appearance
-  - type: StaticPrice
-    price: 500
-  - type: Multishot # Goobstation V
-    missChance: 0.4
-    spreadMultiplier: 2
-    spreadAddition: 40
-  - type: RestrictGunshotsByUserTag # Goobstation
-    doesntContain:
-    - Oni
-    messages:
-    - oni-cannot-shoot-guns-1
-    - oni-cannot-shoot-guns-2
-    - oni-cannot-shoot-guns-3
-  - type: EmitSoundOnPickup
-    sound:
-      collection: PistolsPickUp
-  - type: EmitSoundOnDrop
-    sound:
-      collection: PistolsDrop
-  - type: EmitSoundOnLand
-    sound:
-      collection: PistolsDrop
-  # Goobstation edit end
-  - type: AltFireMelee
-    attackType: Heavy
-  - type: MeleeWeapon
-    damage:
-      types:
-       Blunt: 8 # pistol whip
-    angle: 0
-    wideAnimationRotation: 90 # -90 if it takes bayonets (hits with muzzle) 90 if not (hits with butt)
-    soundHit:
-      collection: MetalThud # Goobstation ^
+    - type: Sprite
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: mag-0
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: Item
+      size: Small
+      shape:
+        - 0,0,1,0
+        - 0,1,0,1
+    - type: Tag
+      tags:
+        - Sidearm
+    - type: Clothing
+      sprite: Objects/Weapons/Guns/Pistols/viper.rsi
+      quickEquip: false
+      slots:
+        - suitStorage
+        - Belt
+    - type: Gun
+      fireRate: 6
+      selectedMode: SemiAuto
+      availableModes:
+        - SemiAuto
+        - FullAuto
+      soundGunshot:
+        path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
+        params:
+          volume: 5
+          variation: 0.1
+          maxDistance: 25
+    - type: ChamberMagazineAmmoProvider
+      soundRack:
+        path: /Audio/Weapons/Guns/Cock/pistol_cock.ogg
+    - type: ItemSlots
+      slots:
+        gun_magazine:
+          # name: Magazine # CorvaxGoob-Loc-in-UI
+          startingItem: MagazinePistol
+          insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazinePistol
+          whitelistFailPopup: gun-magazine-whitelist-fail
+        gun_chamber:
+          # name: Chamber # CorvaxGoob-Loc-in-UI
+          startingItem: CartridgePistol
+          priority: 1
+          whitelist:
+            tags:
+              - CartridgePistol
+    - type: ContainerContainer
+      containers:
+        gun_magazine: !type:ContainerSlot
+        gun_chamber: !type:ContainerSlot
+    - type: AmmoCounter
+    - type: MagazineVisuals
+      magState: mag
+      steps: 1
+      zeroVisible: true
+    - type: Appearance
+    - type: StaticPrice
+      price: 500
+    - type: Multishot # Goobstation V
+      missChance: 0.4
+      spreadMultiplier: 2
+      spreadAddition: 40
+    - type: RestrictGunshotsByUserTag # Goobstation
+      doesntContain:
+        - Oni
+      messages:
+        - oni-cannot-shoot-guns-1
+        - oni-cannot-shoot-guns-2
+        - oni-cannot-shoot-guns-3
+    - type: EmitSoundOnPickup
+      sound:
+        collection: PistolsPickUp
+    - type: EmitSoundOnDrop
+      sound:
+        collection: PistolsDrop
+    - type: EmitSoundOnLand
+      sound:
+        collection: PistolsDrop
+    # Goobstation edit end
+    - type: AltFireMelee
+      attackType: Heavy
+    - type: MeleeWeapon
+      damage:
+        types:
+          Blunt: 8 # pistol whip
+      angle: 0
+      wideAnimationRotation: 90 # -90 if it takes bayonets (hits with muzzle) 90 if not (hits with butt)
+      soundHit:
+        collection: MetalThud # Goobstation ^
 
 - type: entity
   name: Viper
@@ -207,121 +211,121 @@
   id: WeaponPistolViper
   description: A sleek machine pistol designed by the Waffle Corporation. Boasting a selector switch that toggles between semi-auto and rock & roll, the Viper punches high above its weight class given its bulk and concealability. Feeds from .35 Auto pistol magazines. # Goobstation
   components:
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Pistols/viper.rsi
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        # name: Magazine # CorvaxGoob-Loc-in-UI
-        startingItem: MagazinePistol
-        insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazinePistol
-            - MagazinePistolHighCapacity
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        # name: Chamber # CorvaxGoob-Loc-in-UI
-        startingItem: CartridgePistol
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgePistol
-  - type: ContainerContainer
-    containers:
-      gun_magazine: !type:ContainerSlot
-      gun_chamber: !type:ContainerSlot
-  - type: StaticPrice
-    price: 1000
+    - type: Sprite
+      sprite: Objects/Weapons/Guns/Pistols/viper.rsi
+    - type: ItemSlots
+      slots:
+        gun_magazine:
+          # name: Magazine # CorvaxGoob-Loc-in-UI
+          startingItem: MagazinePistol
+          insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazinePistol
+              - MagazinePistolHighCapacity
+          whitelistFailPopup: gun-magazine-whitelist-fail
+        gun_chamber:
+          # name: Chamber # CorvaxGoob-Loc-in-UI
+          startingItem: CartridgePistol
+          priority: 1
+          whitelist:
+            tags:
+              - CartridgePistol
+    - type: ContainerContainer
+      containers:
+        gun_magazine: !type:ContainerSlot
+        gun_chamber: !type:ContainerSlot
+    - type: StaticPrice
+      price: 1000
 
 - type: entity
   name: Echis
-  parent: [ BaseItem, BaseSyndicateContraband ]
+  parent: [BaseItem, BaseSyndicateContraband]
   id: WeaponPistolEchis
   description: A cyborg-mounted weapon system based on the Viper platform. Creates ammunition on the fly from an internal fabricator, which slowly self-charges. # Goobstation
   components:
-  - type: Gun
-    fireRate: 5
-    selectedMode: SemiAuto
-    availableModes:
-      - SemiAuto
-      - FullAuto
-    soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Pistols/viper.rsi
-    layers:
-      - state: base
-        map: ["enum.GunVisualLayers.Base"]
-      - state: mag-0
-        map: ["enum.GunVisualLayers.Mag"]
-  - type: ContainerContainer
-    containers:
-      ballistic-ammo: !type:Container
-  - type: ProjectileBatteryAmmoProvider
-    proto: BulletPistol
-    fireCost: 100
-  - type: Battery
-    maxCharge: 1000
-    startingCharge: 1000
-  - type: BatterySelfRecharger
-    autoRecharge: true
-    autoRechargeRate: 25
-  - type: AmmoCounter
+    - type: Gun
+      fireRate: 5
+      selectedMode: SemiAuto
+      availableModes:
+        - SemiAuto
+        - FullAuto
+      soundGunshot:
+        path: /Audio/Weapons/Guns/Gunshots/pistol.ogg
+    - type: Sprite
+      sprite: Objects/Weapons/Guns/Pistols/viper.rsi
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: mag-0
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: ContainerContainer
+      containers:
+        ballistic-ammo: !type:Container
+    - type: ProjectileBatteryAmmoProvider
+      proto: BulletPistol
+      fireCost: 100
+    - type: Battery
+      maxCharge: 1000
+      startingCharge: 1000
+    - type: BatterySelfRecharger
+      autoRecharge: true
+      autoRechargeRate: 25
+    - type: AmmoCounter
 
 - type: entity
   name: Cobra
-  parent: [ BaseWeaponPistol, BaseSyndicateContraband ]
+  parent: [BaseWeaponPistol, BaseSyndicateContraband]
   id: WeaponPistolCobra
   description: An integrally suppressed, semi-automatic pistol that leaves no trace. Being subsonic, the rounds are near silent at the cost of damage. Feeds from 9.5mm pistol magazines. # Goobstation
   components:
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Pistols/cobra.rsi
-    layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-0
-      map: ["enum.GunVisualLayers.Mag"]
-  - type: Clothing
-    sprite: Objects/Weapons/Guns/Pistols/cobra.rsi
-  - type: ChamberMagazineAmmoProvider
-    boltClosed: null
-  - type: Gun
-    fireRate: 4
-    soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
-      params:
-        volume: -14
-    projectileSpeed: 35 # Goobstation
-    availableModes:
-    - SemiAuto
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        # name: Magazine # CorvaxGoob-Loc-in-UI
-        startingItem: MagazinePistolCaselessRifle
-        insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazinePistolCaselessRifle
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        # name: Chamber # CorvaxGoob-Loc-in-UI
-        startingItem: CartridgeCaselessRifle
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgeCaselessRifle
-  - type: ContainerContainer
-    containers:
-      gun_magazine: !type:ContainerSlot
-      gun_chamber: !type:ContainerSlot
-  - type: StaticPrice
-    price: 1500
+    - type: Sprite
+      sprite: Objects/Weapons/Guns/Pistols/cobra.rsi
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: mag-0
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: Clothing
+      sprite: Objects/Weapons/Guns/Pistols/cobra.rsi
+    - type: ChamberMagazineAmmoProvider
+      boltClosed: null
+    - type: Gun
+      fireRate: 4
+      soundGunshot:
+        path: /Audio/Weapons/Guns/Gunshots/silenced.ogg
+        params:
+          volume: -14
+      projectileSpeed: 35 # Goobstation
+      availableModes:
+        - SemiAuto
+    - type: ItemSlots
+      slots:
+        gun_magazine:
+          # name: Magazine # CorvaxGoob-Loc-in-UI
+          startingItem: MagazinePistolCaselessRifle
+          insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazinePistolCaselessRifle
+          whitelistFailPopup: gun-magazine-whitelist-fail
+        gun_chamber:
+          # name: Chamber # CorvaxGoob-Loc-in-UI
+          startingItem: CartridgeCaselessRifle
+          priority: 1
+          whitelist:
+            tags:
+              - CartridgeCaselessRifle
+    - type: ContainerContainer
+      containers:
+        gun_magazine: !type:ContainerSlot
+        gun_chamber: !type:ContainerSlot
+    - type: StaticPrice
+      price: 1500
 
 - type: entity
   name: MK58
@@ -329,21 +333,21 @@
   id: WeaponPistolMk58
   description: A bog standard semi-automatic pistol chambered in thirty-five. Slim, simple, and accurate in the right hands, it's one of NanoTrasen Small Arms' crown jewels and the most common sidearm in the free world. Feeds from .35 Auto pistol magazines. # Goobstation
   components:
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
-    layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-0
-      map: ["enum.GunVisualLayers.Mag"]
-  - type: Clothing
-    sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
-  - type: Gun
-    fireRate: 5
-    availableModes:
-    - SemiAuto
-    soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
+    - type: Sprite
+      sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: mag-0
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: Clothing
+      sprite: Objects/Weapons/Guns/Pistols/mk58.rsi
+    - type: Gun
+      fireRate: 5
+      availableModes:
+        - SemiAuto
+      soundGunshot:
+        path: /Audio/Weapons/Guns/Gunshots/mk58.ogg
 
 - type: entity
   name: N1984
@@ -351,45 +355,45 @@
   id: WeaponPistolN1984
   description: A ridiculously overengineered hand cannon that fires a revolver cartridge. While the firerate is measured in malfunctions per second, it's become a sort of status symbol among the NanoTrasen elite due to its sheer power and gaudy price tag. Feeds from .45 Magnum pistol magazines. # Goobstation
   components:
-  - type: Sprite
-    sprite: Objects/Weapons/Guns/Pistols/N1984.rsi
-    layers:
-    - state: base
-      map: ["enum.GunVisualLayers.Base"]
-    - state: mag-0
-      map: ["enum.GunVisualLayers.Mag"]
-  - type: Clothing
-    sprite: Objects/Weapons/Guns/Pistols/N1984.rsi
-  - type: Gun
-    minAngle: 1
-    # Goob edit start
-    maxAngle: 8
-    angleIncrease: 3
-    angleDecay: 4
-    fireRate: 3
-    # Goob edit end
-    availableModes:
-    - SemiAuto
-    soundGunshot:
-      path: /Audio/Weapons/Guns/Gunshots/mateba.ogg # Goob edit
-  - type: ItemSlots
-    slots:
-      gun_magazine:
-        # name: Magazine # CorvaxGoob-Loc-in-UI
-        startingItem: MagazineMagnum
-        insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
-        ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
-        priority: 2
-        whitelist:
-          tags:
-            - MagazineMagnum
-        whitelistFailPopup: gun-magazine-whitelist-fail
-      gun_chamber:
-        # name: Chamber # CorvaxGoob-Loc-in-UI
-        startingItem: CartridgeMagnum
-        priority: 1
-        whitelist:
-          tags:
-            - CartridgeMagnum
-  - type: Multishot #Goob
-    spreadMultiplier: 30
+    - type: Sprite
+      sprite: Objects/Weapons/Guns/Pistols/N1984.rsi
+      layers:
+        - state: base
+          map: ["enum.GunVisualLayers.Base"]
+        - state: mag-0
+          map: ["enum.GunVisualLayers.Mag"]
+    - type: Clothing
+      sprite: Objects/Weapons/Guns/Pistols/N1984.rsi
+    - type: Gun
+      minAngle: 1
+      # Goob edit start
+      maxAngle: 8
+      angleIncrease: 3
+      angleDecay: 4
+      fireRate: 3
+      # Goob edit end
+      availableModes:
+        - SemiAuto
+      soundGunshot:
+        path: /Audio/Weapons/Guns/Gunshots/mateba.ogg # Goob edit
+    - type: ItemSlots
+      slots:
+        gun_magazine:
+          # name: Magazine # CorvaxGoob-Loc-in-UI
+          startingItem: MagazineMagnum
+          insertSound: /Audio/Weapons/Guns/MagIn/pistol_magin.ogg
+          ejectSound: /Audio/Weapons/Guns/MagOut/pistol_magout.ogg
+          priority: 2
+          whitelist:
+            tags:
+              - MagazineMagnum
+          whitelistFailPopup: gun-magazine-whitelist-fail
+        gun_chamber:
+          # name: Chamber # CorvaxGoob-Loc-in-UI
+          startingItem: CartridgeMagnum
+          priority: 1
+          whitelist:
+            tags:
+              - CartridgeMagnum
+    - type: Multishot #Goob
+      spreadMultiplier: 30

@@ -1,0 +1,32 @@
+# Дымовой эффект дульного среза
+- type: entity
+  id: MuzzleFlashEffectSmoke
+  categories: [HideSpawnMenu]
+  components:
+    - type: TimedDespawn
+      lifetime: 0.4
+    - type: Sprite
+      drawdepth: BelowMobs
+      layers:
+        - shader: unshaded
+          map: ["enum.EffectLayers.Unshaded"]
+          sprite: Objects/Weapons/Guns/Projectiles/projectiles.rsi
+          state: muzzle_bullet
+    - type: EffectVisuals
+    - type: Tag
+      tags:
+        - HideContextMenu
+    - type: AnimationPlayer
+    - type: Trail
+      frequency: 0.01
+      lifetime: 0.3
+      alphaLerpAmount: 0.15
+      alphaLerpTarget: 0.0
+      scaleLerpAmount: 0.1
+      scaleLerpTarget: 0.0
+      lerpTime: 0.02
+      color: "#808080A0"
+      scale: 0.15
+      velocity: 0.02
+      startAngle: -45
+      endAngle: 45

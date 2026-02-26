@@ -1,0 +1,35 @@
+# Bullet trail overrides - adds visual trails to projectiles
+
+# Обычная пуля
+- type: entity
+  parent: BaseBullet
+  id: BaseBulletTrail
+  abstract: true
+  components:
+    - type: Trail
+      frequency: 0.02
+      lifetime: 0.15
+      alphaLerpAmount: 0.25
+      alphaLerpTarget: 0.0
+      scaleLerpAmount: 0.2
+      scaleLerpTarget: 0.0
+      lerpTime: 0.02
+      color: "#C8C8C8A0"
+      scale: 0.08
+
+# Лазерный болт
+- type: entity
+  parent: BulletLaser
+  id: BulletLaserTrail
+  abstract: true
+  components:
+    - type: Trail
+      frequency: 0.015
+      lifetime: 0.12
+      alphaLerpAmount: 0.3
+      alphaLerpTarget: 0.0
+      scaleLerpAmount: 0.25
+      scaleLerpTarget: 0.0
+      lerpTime: 0.02
+      color: "#FF6600B0"
+      scale: 0.1

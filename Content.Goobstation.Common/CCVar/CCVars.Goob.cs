@@ -673,4 +673,25 @@ public sealed partial class GoobCVars
     /// </summary>
     public static readonly CVarDef<float> GpsUpdateRate =
         CVarDef.Create("gps.update_rate", 1f, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    ///     Discord webhook URL for logging player joins/leaves.
+    /// </summary>
+    public static readonly CVarDef<string> DiscordPlayerWebhook =
+        CVarDef.Create("discord.player_webhook", string.Empty, CVar.SERVERONLY | CVar.CONFIDENTIAL);
+
+    public static readonly CVarDef<int> VerifyApiPort =
+        CVarDef.Create("verify.api_port", 9876, CVar.SERVERONLY);
+
+    public static readonly CVarDef<string> VerifyApiSecret =
+        CVarDef.Create("verify.api_secret", string.Empty, CVar.SERVERONLY | CVar.CONFIDENTIAL);
+
+    public static readonly CVarDef<string> VerifyDiscordLink =
+        CVarDef.Create("verify.discord_link", string.Empty, CVar.SERVERONLY);
+
+    public static readonly CVarDef<bool> HardcodeZoomEnabled =
+        CVarDef.Create("hardcode.zoom_enabled", false, CVar.SERVER | CVar.REPLICATED);
+
+    public static readonly CVarDef<float> HardcodeZoomLevel =
+        CVarDef.Create("hardcode.zoom_level", 0.5f, CVar.SERVER | CVar.REPLICATED);
 }
