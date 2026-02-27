@@ -1,0 +1,45 @@
+- type: entity
+  id: IAmAtomicOrb
+  name: Atomic Sphere
+  description: "A sphere pulsing with immense destructive energy. Those who wield it speak words of annihilation."
+  parent: BaseItem # <-- Наследуйте от BaseItem!
+  components:
+    - type: Item
+      size: Small
+    - type: Sprite
+      sprite: Objects/Magic/magicactions.rsi
+      layers:
+        - state: act_nuke
+          shader: unshaded
+    - type: PointLight
+      color: "#8800FF"
+      radius: 2.0
+      energy: 4.0
+      castShadows: false
+    - type: LightBehaviour
+      behaviours:
+        - !type:FadeBehaviour
+          interpolate: Nearest
+          minDuration: 0.5
+          maxDuration: 0.5
+          startValue: 2.0
+          endValue: 6.0
+          property: Energy
+          enabled: true
+          isLooped: true
+          reverseWhenFinished: true
+    - type: IAmAtomic
+      castTime: 8.0
+      explosionRadius: 12.0
+      explosionIntensity: 200.0
+      explosionMaxTileBreak: 3
+    - type: Trail
+      frequency: 0.05
+      lifetime: 0.4
+      alphaLerpAmount: 0.2
+      alphaLerpTarget: 0.0
+      scaleLerpAmount: 0.15
+      scaleLerpTarget: 0.0
+      lerpTime: 0.03
+      color: "#9900FFCC"
+      scale: 0.12

@@ -211,15 +211,15 @@
     - type: TimedDespawn
       lifetime: 10
     - type: Trail
-      frequency: 0.02
-      lifetime: 0.18
-      alphaLerpAmount: 0.25
+      frequency: 0.015
+      lifetime: 0.12
+      alphaLerpAmount: 0.35
       alphaLerpTarget: 0.0
-      scaleLerpAmount: 0.2
+      scaleLerpAmount: 0.3
       scaleLerpTarget: 0.0
       lerpTime: 0.02
-      color: "#C8C8C8A0"
-      scale: 0.07
+      color: "#FFFFFFA0"
+      scale: 0.04
 
 - type: entity
   id: BaseBulletTrigger # Trigger-on-collide bullets
