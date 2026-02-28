@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "license": "CC0-1.0",
+  "copyright": "Generated for IAmAtomic",
+  "size": {
+    "x": 128,
+    "y": 128
+  },
+  "states": [
+    {
+      "name": "ring"
+    },
+    {
+      "name": "arc"
+    },
+    {
+      "name": "spike"
+    },
+    {
+      "name": "glow"
+    }
+  ]
+}

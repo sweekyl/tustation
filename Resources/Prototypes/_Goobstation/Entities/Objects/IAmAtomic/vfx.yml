@@ -1,0 +1,65 @@
+# I Am Atomic — VFX энтити
+
+# Орбитальная сфера — постоянная энтити которая летает вокруг игрока
+- type: entity
+  id: IAmAtomicOrbEntity
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: IAmAtomicOrbit
+  - type: Sprite
+    drawdepth: Effects
+    sprite: Objects/Goobstation/IAmAtomic/atomic_orb.rsi
+    layers:
+    - state: orb
+      shader: unshaded
+  - type: PointLight
+    color: "#CC00FF"
+    radius: 1.8
+    energy: 7.0
+    castShadows: false
+  - type: LightBehaviour
+    behaviours:
+    - !type:PulseBehaviour
+      interpolate: Linear
+      minDuration: 0.25
+      maxDuration: 0.45
+      minValue: 4.0
+      maxValue: 10.0
+      property: Energy
+      enabled: true
+  - type: Tag
+    tags:
+    - HideContextMenu
+
+# Финальный VFX при взрыве
+- type: entity
+  id: IAmAtomicFinalVFX
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: TimedDespawn
+    lifetime: 2.0
+  - type: Sprite
+    drawdepth: Effects
+    sprite: Objects/Goobstation/IAmAtomic/atomic_orb.rsi
+    scale: 5.0, 5.0
+    layers:
+    - state: orb
+      shader: unshaded
+  - type: PointLight
+    color: "#FF00FF"
+    radius: 10.0
+    energy: 20.0
+    castShadows: false
+  - type: LightBehaviour
+    behaviours:
+    - !type:FadeBehaviour
+      interpolate: Linear
+      minDuration: 2.0
+      maxDuration: 2.0
+      startValue: 20.0
+      endValue: 0.0
+      property: Energy
+      enabled: true
+  - type: Tag
+    tags:
+    - HideContextMenu

@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "license": "CC0-1.0",
+  "copyright": "Generated for IAmAtomic",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "orb",
+      "delays": [
+        [
+          0.08,
+          0.08,
+          0.08,
+          0.08,
+          0.08,
+          0.08,
+          0.08,
+          0.08
+        ]
+      ]
+    }
+  ]
+}
