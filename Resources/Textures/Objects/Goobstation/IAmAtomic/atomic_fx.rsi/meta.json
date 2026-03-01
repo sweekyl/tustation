@@ -3,8 +3,8 @@
   "license": "CC0-1.0",
   "copyright": "Generated for IAmAtomic",
   "size": {
-    "x": 128,
-    "y": 128
+    "x": 64,
+    "y": 64
   },
   "states": [
     {
@@ -14,10 +14,13 @@
       "name": "arc"
     },
     {
+      "name": "glow"
+    },
+    {
       "name": "spike"
     },
     {
-      "name": "glow"
+      "name": "star"
     }
   ]
 }

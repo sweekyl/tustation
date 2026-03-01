@@ -21,6 +21,7 @@ public sealed class IAmAtomicOverlay : Overlay
     private readonly Texture _arcTex;
     private readonly Texture _spikeTex;
     private readonly Texture _glowTex;
+    private readonly Texture _starTex;
 
     private ShaderInstance _shader;
 
@@ -37,6 +38,7 @@ public sealed class IAmAtomicOverlay : Overlay
         _arcTex   = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/arc.png").Texture;
         _spikeTex = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/spike.png").Texture;
         _glowTex  = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/glow.png").Texture;
+        _starTex  = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/star.png").Texture;
 
         _shader = proto.Index<ShaderPrototype>("unshaded").Instance();
     }
@@ -151,6 +153,17 @@ public sealed class IAmAtomicOverlay : Overlay
             var spikeLen = (0.25f + 0.4f * MathF.Abs(MathF.Sin(t * 2.5f + i * 0.8f))) * p;
             var spikeAlpha = (0.6f + 0.35f * MathF.Sin(t * 3f + i)) * p;
             DrawSpike(h, pos, angle, maxR, spikeLen, new Color(1f, 0.6f, 1f, spikeAlpha));
+        }
+
+        // Звёздочки по границе — пульсируют
+        var starCount = 6 + (int)(p * 6f);
+        for (var i = 0; i < starCount; i++)
+        {
+            var angle = i / (float)starCount * MathF.Tau + t * 0.3f;
+            var starPulse = 0.5f + 0.5f * MathF.Sin(t * 4f + i * 1.3f);
+            var starSize = (0.4f + 0.3f * starPulse) * p;
+            var starPos = pos + new Vector2(MathF.Cos(angle), MathF.Sin(angle)) * maxR;
+            DrawTexCentered(h, _starTex, starPos, starSize, new Color(1f, 0.7f, 1f, starPulse * p));
         }
 
         // Дуги вращающиеся

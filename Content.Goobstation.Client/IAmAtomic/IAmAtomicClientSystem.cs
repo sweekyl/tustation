@@ -17,12 +17,16 @@ public sealed class IAmAtomicClientSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
+        // Пол — рисуется под объектами
+        _overlay.AddOverlay(new IAmAtomicFloorOverlay(EntityManager, _timing, _resCache, _proto));
+        // Основной эффект — рисуется над объектами
         _overlay.AddOverlay(new IAmAtomicOverlay(EntityManager, _timing, _resCache, _proto, _playerManager));
     }
 
     public override void Shutdown()
     {
         base.Shutdown();
+        _overlay.RemoveOverlay<IAmAtomicFloorOverlay>();
         _overlay.RemoveOverlay<IAmAtomicOverlay>();
     }
 }

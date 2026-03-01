@@ -1,6 +1,7 @@
 # I Am Atomic — VFX энтити
 
 # Орбитальная сфера — постоянная энтити которая летает вокруг игрока
+# LightBehaviour убран — он создаёт лишние аудио стримы
 - type: entity
   id: IAmAtomicOrbEntity
   categories: [ HideSpawnMenu ]
@@ -17,16 +18,6 @@
     radius: 1.8
     energy: 7.0
     castShadows: false
-  - type: LightBehaviour
-    behaviours:
-    - !type:PulseBehaviour
-      interpolate: Linear
-      minDuration: 0.25
-      maxDuration: 0.45
-      minValue: 4.0
-      maxValue: 10.0
-      property: Energy
-      enabled: true
   - type: Tag
     tags:
     - HideContextMenu
@@ -50,16 +41,6 @@
     radius: 10.0
     energy: 20.0
     castShadows: false
-  - type: LightBehaviour
-    behaviours:
-    - !type:FadeBehaviour
-      interpolate: Linear
-      minDuration: 2.0
-      maxDuration: 2.0
-      startValue: 20.0
-      endValue: 0.0
-      property: Energy
-      enabled: true
   - type: Tag
     tags:
     - HideContextMenu
