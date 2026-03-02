@@ -3,6 +3,7 @@ using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Client.ResourceManagement;
+using Robust.Client.Graphics;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -34,11 +35,12 @@ public sealed class IAmAtomicOverlay : Overlay
         _transform = _entManager.System<TransformSystem>();
         _playerManager = playerManager;
 
-        _ringTex  = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/ring.png").Texture;
-        _arcTex   = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/arc.png").Texture;
-        _spikeTex = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/spike.png").Texture;
-        _glowTex  = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/glow.png").Texture;
-        _starTex  = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/star.png").Texture;
+        var rsi = resCache.GetResource<RSIResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi").RSI;
+        _ringTex  = rsi["ring"].Frame0;
+        _arcTex   = rsi["arc"].Frame0;
+        _spikeTex = rsi["spike"].Frame0;
+        _glowTex  = rsi["glow"].Frame0;
+        _starTex  = rsi["star"].Frame0;
 
         _shader = proto.Index<ShaderPrototype>("unshaded").Instance();
     }

@@ -1,6 +1,7 @@
 using Content.Goobstation.Shared.IAmAtomic;
 using Robust.Client.Graphics;
 using Robust.Client.ResourceManagement;
+using Robust.Client.Graphics;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
@@ -28,8 +29,9 @@ public sealed class IAmAtomicFloorOverlay : Overlay
         _entManager = entManager;
         _timing = timing;
         _transform = _entManager.System<TransformSystem>();
-        _glowTex = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/glow.png").Texture;
-        _ringTex = resCache.GetResource<TextureResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi/ring.png").Texture;
+        var rsi = resCache.GetResource<RSIResource>("/Textures/Objects/Goobstation/IAmAtomic/atomic_fx.rsi").RSI;
+        _glowTex = rsi["glow"].Frame0;
+        _ringTex = rsi["ring"].Frame0;
         _shader = proto.Index<ShaderPrototype>("unshaded").Instance();
     }
 

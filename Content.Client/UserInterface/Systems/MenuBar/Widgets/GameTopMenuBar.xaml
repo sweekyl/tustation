@@ -69,6 +69,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         AppendStyleClass="{x:Static style:StyleBase.ButtonSquare}"
         />
     <ui:MenuButton
+        Name="PhraseWheelButton"
+        Access="Internal"
+        Icon="{xe:Tex '/Textures/Interface/emotes.svg.192dpi.png'}"
+        ToolTip="Колесо фраз"
+        MinSize="42 64"
+        HorizontalExpand="True"
+        Visible="False"
+        AppendStyleClass="{x:Static style:StyleBase.ButtonSquare}"
+        />
+    <ui:MenuButton
         Name="CraftingButton"
         Access="Internal"
         Icon="{xe:Tex '/Textures/Interface/hammer.svg.192dpi.png'}"

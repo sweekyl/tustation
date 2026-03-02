@@ -1,0 +1,80 @@
+- type: phraseWheelEntry
+  id: PhraseRunWhere
+  text: "Подтверждаю"
+  chatType: Speak
+  label: "Подтверждаю"
+  icon: /Textures/Interface/hecu.png
+  sound: /Audio/Voice/Phrasewheel/accept.ogg
+
+- type: phraseWheelEntry
+  id: PhraseGamesOver
+  text: "ВИЖУ ЦЕЛЬ!!"
+  chatType: Speak
+  label: "ВИЖУ ЦЕЛЬ!!"
+  icon: /Textures/Interface/hecu.png
+  sound: /Audio/Voice/Phrasewheel/warning.ogg
+
+- type: phraseWheelEntry
+  id: PhraseBeholdMyPower
+  text: "давай, ПОШЁЛ ПОШЁЛ!!"
+  chatType: Shout
+  label: "давай, ПОШЁЛ ПОШЁЛ!!"
+  icon: /Textures/Interface/hecu.png
+  sound: /Audio/Voice/Phrasewheel/poshelposhel.ogg
+
+- type: phraseWheelEntry
+  id: PhraseCrushingAttack
+  text: "Мы тебе жопу кочергой порвём"
+  chatType: Speak
+  label: "Мы тебе жопу кочергой порвём"
+  icon: /Textures/Interface/hecu.png
+  sound: /Audio/Voice/Phrasewheel/jopykaj.ogg
+
+- type: phraseWheelEntry
+  id: PhraseUnstoppable
+  text: "САНИТААААРРР!!"
+  chatType: Speak
+  label: "САНИТААААРРР!!"
+  icon: /Textures/Interface/hecu.png
+  sound: /Audio/Voice/Phrasewheel/sanitar.ogg
+
+- type: phraseWheelEntry
+  id: PhraseEndOfAll
+  text: "Поиск подозреваемого..."
+  chatType: Speak
+  label: "Поиск подозреваемого..."
+  icon: /Textures/Interface/halflife.png
+  sound: /Audio/Voice/Phrasewheel/poispodozrev.ogg
+
+- type: phraseWheelEntry
+  id: PhraseIAmNuclear
+  text: "КОД 100"
+  chatType: Speak
+  label: "КОД 100"
+  icon: /Textures/Interface/halflife.png
+  sound: /Audio/Voice/Phrasewheel/cod100.ogg
+
+- type: phraseWheelEntry
+  id: PhraseCod1
+  text: "1199, Помощь"
+  chatType: Speak
+  label: "1199, Помощь"
+  icon: /Textures/Interface/halflife.png
+  sound: /Audio/Voice/Phrasewheel/1199.ogg
+
+- type: phraseWheelEntry
+  id: PhraseCod2
+  text: "Блокировать"
+  chatType: Speak
+  label: "Блокировать"
+  icon: /Textures/Interface/halflife.png
+  sound: /Audio/Voice/Phrasewheel/blockirovat.ogg
+
+- type: phraseWheelEntry
+  id: PhraseCod3
+  text: "Подсчет мертвых тел..."
+  chatType: Speak
+  label: "Подсчет мертвых тел..."
+  icon: /Textures/Interface/halflife.png
+  sound: /Audio/Voice/Phrasewheel/deathtela.ogg
+
