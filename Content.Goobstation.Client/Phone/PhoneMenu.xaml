@@ -1,0 +1,32 @@
+<DefaultWindow xmlns="https://spacestation14.io"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="Content.Goobstation.Client.Phone.PhoneMenu"
+    Title="Телефон"
+    MinSize="380 480"
+    SetSize="380 480">
+
+    <BoxContainer Orientation="Vertical" Margin="6">
+        <ItemList Name="TrackList" SelectMode="Button"
+            HorizontalExpand="True" VerticalExpand="True"
+            SizeFlagsStretchRatio="7" Margin="0 0 0 4"/>
+
+        <BoxContainer Orientation="Vertical" Margin="0 0 0 4">
+            <Label Text="Выбранный трек:" />
+            <Label Name="TrackName" Text="---" />
+        </BoxContainer>
+
+        <Slider Name="PlaybackSlider" HorizontalExpand="True" Margin="0 0 0 2"/>
+        <Label Name="DurationLabel" Text="00:00 / 00:00" HorizontalAlignment="Center" Margin="0 0 0 6"/>
+
+        <BoxContainer Orientation="Horizontal" Margin="0 0 0 6">
+            <Label Text="Громкость:" Margin="0 0 6 0" VerticalAlignment="Center"/>
+            <Slider Name="VolumeSlider" HorizontalExpand="True" MinValue="0" MaxValue="1" Value="0.5"/>
+            <Label Name="VolumeLabel" Text="50%" Margin="6 0 0 0" VerticalAlignment="Center" MinWidth="35"/>
+        </BoxContainer>
+
+        <BoxContainer Orientation="Horizontal" HorizontalExpand="True">
+            <Button Name="PlayButton" Text="▶ Играть" HorizontalExpand="True" Margin="0 0 2 0"/>
+            <Button Name="StopButton" Text="■ Стоп" HorizontalExpand="True"/>
+        </BoxContainer>
+    </BoxContainer>
+</DefaultWindow>

@@ -342,7 +342,7 @@
 - type: entity
   id: RandomHumanoidHECUSpawner
   name: HECU Operative
-  suffix: ERTRole
+  suffix: HecuRole
   components:
   - type: Sprite
     sprite: Mobs/Species/Human/parts.rsi
@@ -360,7 +360,11 @@
   parent: EventHumanMindShielded
   components:
   - type: AutoImplant
-    implants: [ FreedomImplant ]
+    implants:
+    - MindShieldImplant
+    - FreedomImplant
+  - type: Speech
+    speechSounds: HecuRadio
   - type: GhostRole
     name: ghost-role-information-Hecu-name
     description: ghost-role-information-Hecu-description

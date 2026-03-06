@@ -1,0 +1,21 @@
+- type: entity
+  id: PhoneItem
+  name: телефон
+  description: Портативный музыкальный проигрыватель.
+  parent: BaseItem
+  components:
+  - type: Phone
+    volume: 0.5
+    maxDistance: 12.0
+  - type: Sprite
+    sprite: Objects/Goobstation/Phone/phone.rsi # Проверь, что путь РЕАЛЬНО такой
+    state: phone # Это состояние ОБЯЗАТЕЛЬНО должно быть внутри RSI
+  - type: Item
+    size: Small
+    sprite: Objects/Goobstation/Phone/phone.rsi
+  - type: UserInterface
+    interfaces:
+      enum.PhoneUiKey.Key:
+        type: PhoneBoundUserInterface
+  - type: ActivatableUI
+    key: enum.PhoneUiKey.Key

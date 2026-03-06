@@ -1,0 +1,23 @@
+- type: jukebox
+  id: PhoneTrack_Test1
+  name: "tyler2"
+  path:
+    path: /Audio/Music/tyler2.ogg
+
+- type: jukebox
+  id: PhoneTrack_Test2
+  name: "2003-aidan"
+  path:
+    path: /Audio/Music/2003.ogg
+
+- type: jukebox
+  id: PhoneTrack_Test3
+  name: "Babydoll"
+  path:
+    path: /Audio/Music/Babydoll.ogg
+
+- type: jukebox
+  id: PhoneTrack_Test4
+  name: "Bullymaguire"
+  path:
+    path: /Audio/Music/Bullymaguire.ogg

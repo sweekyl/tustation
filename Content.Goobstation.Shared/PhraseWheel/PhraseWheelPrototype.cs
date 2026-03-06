@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -5,7 +7,7 @@ using Robust.Shared.Utility;
 namespace Content.Goobstation.Shared.PhraseWheel;
 
 /// <summary>
-/// Одна фраза в колесе. Добавляй сколько угодно в YAML.
+/// Одна фраза в меню. Добавляй сколько угодно в YAML.
 /// </summary>
 [Prototype("phraseWheelEntry")]
 public sealed partial class PhraseWheelEntryPrototype : IPrototype
@@ -17,15 +19,15 @@ public sealed partial class PhraseWheelEntryPrototype : IPrototype
     [DataField(required: true)]
     public string Text { get; private set; } = string.Empty;
 
-    /// <summary>Тип сообщения: Speak, Whisper, Emote</summary>
+    /// <summary>Тип сообщения: Speak, Whisper, Emote, Shout</summary>
     [DataField]
     public PhraseWheelChatType ChatType { get; private set; } = PhraseWheelChatType.Speak;
 
-    /// <summary>Звук который играет при произношении фразы. Можно не указывать.</summary>
+    /// <summary>Звук который играет при произнесении фразы. Можно не указывать.</summary>
     [DataField]
     public SoundSpecifier? Sound { get; private set; }
 
-    /// <summary>Иконка в колесе</summary>
+    /// <summary>Иконка в меню</summary>
     [DataField]
     public SpriteSpecifier Icon { get; private set; } =
         new SpriteSpecifier.Texture(new("/Textures/Interface/emotes.svg.192dpi.png"));
@@ -34,9 +36,16 @@ public sealed partial class PhraseWheelEntryPrototype : IPrototype
     [DataField]
     public Color Color { get; private set; } = Color.MediumPurple;
 
-    /// <summary>Подпись под иконкой</summary>
+    /// <summary>Подпись под иконкой (короткая)</summary>
     [DataField]
     public string Label { get; private set; } = string.Empty;
+
+    /// <summary>
+    /// Раздел меню. Фразы группируются по разделам.
+    /// Например: "HECU", "Медики", "Общее"
+    /// </summary>
+    [DataField]
+    public string Category { get; private set; } = "Общее";
 }
 
 public enum PhraseWheelChatType : byte

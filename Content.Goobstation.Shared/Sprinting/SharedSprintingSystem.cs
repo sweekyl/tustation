@@ -26,6 +26,7 @@ using Content.Shared.Popups;
 using Content.Shared.Standing;
 using Content.Shared.Stunnable;
 using Content.Shared.Zombies;
+using Robust.Shared.Audio;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Input;
 using Robust.Shared.Input.Binding;
@@ -35,6 +36,7 @@ using Robust.Shared.Timing;
 using System.Numerics;
 
 namespace Content.Goobstation.Shared.Sprinting;
+
 public abstract class SharedSprintingSystem : EntitySystem
 {
     [Dependency] private readonly SharedStaminaSystem _staminaSystem = default!;
@@ -47,6 +49,13 @@ public abstract class SharedSprintingSystem : EntitySystem
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedMoverController _moverController = default!;
     [Dependency] private readonly INetManager _net = default!;
+
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<SharedSprintingSystem>();
+    }
+
     public override void Initialize()
     {
         SubscribeLocalEvent<SprinterComponent, RefreshMovementSpeedModifiersEvent>(OnRefreshSpeed);
@@ -69,6 +78,10 @@ public abstract class SharedSprintingSystem : EntitySystem
         SubscribeLocalEvent<BuckleComponent, SprintAttemptEvent>(OnBuckleSprintAttempt);
         SubscribeLocalEvent<SprinterComponent, EntityZombifiedEvent>(OnZombified);
         SubscribeLocalEvent<SprinterComponent, DisarmedEvent>(OnDisarm);
+
+        // Goob edit - walk inversion
+        SubscribeLocalEvent<SprinterComponent, ComponentStartup>(OnSprinterAdded);
+        SubscribeLocalEvent<SprinterComponent, ComponentShutdown>(OnSprinterRemoved);
     }
 
     #region Core Functions
@@ -89,7 +102,6 @@ public abstract class SharedSprintingSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        // We dont add it to the EQE since the comp might get added as this runs.
         var query = EntityQueryEnumerator<SprinterComponent, StaminaModifierComponent>();
         while (query.MoveNext(out var uid, out var sprinterComp, out var staminaComp))
         {
@@ -101,6 +113,13 @@ public abstract class SharedSprintingSystem : EntitySystem
             _staminaSystem.ModifyStaminaDrain(uid,
                 sprinterComp.StaminaDrainKey,
                 sprinterComp.StaminaDrainRate * staminaComp.Modifier * sprinterComp.StaminaDrainMultiplier);
+        }
+
+        // Goob edit - breathing sounds
+        var breathQuery = EntityQueryEnumerator<SprinterComponent, StaminaComponent>();
+        while (breathQuery.MoveNext(out var bUid, out var sprinter, out var stamina))
+        {
+            UpdateBreathing(bUid, sprinter, stamina);
         }
     }
 
@@ -118,13 +137,12 @@ public abstract class SharedSprintingSystem : EntitySystem
             || !TryComp<SprinterComponent>(session.AttachedEntity, out var sprinterComponent)
             || !TryComp<InputMoverComponent>(session.AttachedEntity, out var inputMoverComponent)
             || !sprinterComponent.IsSprinting
-            // We check this instead of physics so that we can gatekeep sprinting to only work when you are moving intentionally, and not walking.
             && _moverController.GetVelocityInput(inputMoverComponent).Sprinting == Vector2.Zero)
             return;
 
         if (!sprinterComponent.CanSprint)
         {
-            if (message.State == BoundKeyState.Down) // Without this check the message triggers when holding and releasing.
+            if (message.State == BoundKeyState.Down)
                 _popupSystem.PopupClient(Loc.GetString("sprint-disabled"), session.AttachedEntity.Value, session.AttachedEntity.Value, PopupType.Medium);
 
             return;
@@ -138,7 +156,6 @@ public abstract class SharedSprintingSystem : EntitySystem
 
     public void ToggleSprint(EntityUid uid, SprinterComponent component, bool newSprintState, bool gracefulStop = true)
     {
-        // Breaking these into two separate if's for better readability
         if (newSprintState == component.IsSprinting)
             return;
 
@@ -170,7 +187,6 @@ public abstract class SharedSprintingSystem : EntitySystem
 
     private bool CanSprint(EntityUid uid, SprinterComponent component)
     {
-        // Awaiting on a wizden PR that refactors gravity from whatever the fuck this is.
         if (_gravity.IsWeightless(uid))
         {
             _popupSystem.PopupClient(Loc.GetString("no-sprint-while-weightless"), uid, uid, PopupType.Medium);
@@ -222,7 +238,8 @@ public abstract class SharedSprintingSystem : EntitySystem
 
     #endregion
 
-    #region Misc.Handlers
+    #region Misc Handlers
+
     private void OnBeforeStaminaDamage(EntityUid uid, SprinterComponent component, ref BeforeStaminaDamageEvent args)
     {
         if (!component.IsSprinting
@@ -282,8 +299,9 @@ public abstract class SharedSprintingSystem : EntitySystem
 
         ToggleSprint(uid, component, false, gracefulStop: false);
     }
+
     private void OnZombified(EntityUid uid, SprinterComponent component, ref EntityZombifiedEvent args) =>
-        component.SprintSpeedMultiplier *= 0.5f; // We dont want super fast zombies do we?
+        component.SprintSpeedMultiplier *= 0.5f;
 
     private void OnDisarm(EntityUid uid, SprinterComponent sprinter, ref DisarmedEvent args)
     {
@@ -295,4 +313,76 @@ public abstract class SharedSprintingSystem : EntitySystem
     }
 
     #endregion
+
+    #region Walk Inversion
+
+    // Goob edit - инвертируем ходьбу/бег: без Shift = ходьба, Shift = бег
+    private void OnSprinterAdded(EntityUid uid, SprinterComponent component, ComponentStartup args)
+    {
+        EnsureComp<WalkInvertedComponent>(uid);
+        if (TryComp<InputMoverComponent>(uid, out var mover))
+        {
+            mover.DefaultSprinting = false;
+            Dirty(uid, mover);
+        }
+    }
+
+    private void OnSprinterRemoved(EntityUid uid, SprinterComponent component, ComponentShutdown args)
+    {
+        RemCompDeferred<WalkInvertedComponent>(uid);
+        if (TryComp<InputMoverComponent>(uid, out var mover))
+        {
+            mover.DefaultSprinting = true;
+            Dirty(uid, mover);
+        }
+    }
+
+    #endregion
+
+    #region Breathing
+
+    // Goob edit - звуки одышки по мере траты стамины
+    private void UpdateBreathing(EntityUid uid, SprinterComponent sprinter, StaminaComponent stamina)
+    {
+        // Доля оставшейся стамины: 1.0 = полная, 0.0 = пустая
+        var staminaFraction = 1f - (stamina.StaminaDamage / stamina.CritThreshold);
+        staminaFraction = Math.Clamp(staminaFraction, 0f, 1f);
+
+        BreathingLevel targetLevel;
+        if (staminaFraction <= sprinter.BreathingHeavyThreshold)
+            targetLevel = BreathingLevel.Heavy;
+        else if (staminaFraction <= sprinter.BreathingLightThreshold)
+            targetLevel = BreathingLevel.Light;
+        else
+            targetLevel = BreathingLevel.None;
+
+        sprinter.CurrentBreathingLevel = targetLevel;
+
+        if (targetLevel == BreathingLevel.None)
+            return;
+
+        var interval = targetLevel == BreathingLevel.Heavy
+            ? sprinter.BreathingHeavyInterval
+            : sprinter.BreathingLightInterval;
+
+        var sound = targetLevel == BreathingLevel.Heavy
+            ? sprinter.BreathingHeavySound
+            : sprinter.BreathingLightSound;
+
+        if (sound == null)
+            return;
+
+        if (_timing.CurTime - sprinter.LastBreathSound < interval)
+            return;
+
+        sprinter.LastBreathSound = _timing.CurTime;
+
+        // Слышно только самому игроку
+        if (_net.IsServer)
+            _audio.PlayPredicted(sound, uid, uid,
+                AudioParams.Default.WithVolume(-4f).WithMaxDistance(1f));
+    }
+
+    #endregion
 }
+

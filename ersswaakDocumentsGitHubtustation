@@ -1,0 +1,25 @@
+warning: in the working copy of 'Content.Goobstation.Shared/Sprinting/SharedSprintingSystem.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'Content.Shared/Movement/Systems/SharedMoverController.CVars.cs', LF will be replaced by CRLF the next time Git touches it
+Content.Client/UserInterface/Systems/PhraseWheel/PhraseWheelUIController.cs
+Content.Goobstation.Server/PhraseWheel/PhraseWheelSystem.cs
+Content.Goobstation.Shared/PhraseWheel/PhraseWheelComponent.cs
+Content.Goobstation.Shared/PhraseWheel/PhraseWheelPrototype.cs
+Content.Goobstation.Shared/Sprinting/SharedSprintingSystem.cs
+Content.Goobstation.Shared/Sprinting/SprinterComponent.cs
+Content.Shared/Input/ContentKeyFunctions.cs
+Content.Shared/Movement/Components/InputMoverComponent.cs
+Content.Shared/Movement/Components/MovementSpeedModifierComponent.cs
+Content.Shared/Movement/Systems/SharedMoverController.CVars.cs
+Resources/Prototypes/Entities/Clothing/Head/helmets.yml
+Resources/Prototypes/Entities/Clothing/Masks/masks.yml
+Resources/Prototypes/Entities/Clothing/Shoes/base_clothingshoes.yml
+Resources/Prototypes/_Goobstation/Entities/Clothing/OuterClothing/armour.yml
+Resources/Prototypes/_Goobstation/Entities/Mobs/Player/admeme.yml
+Resources/Prototypes/_Goobstation/PhraseWheel/phrase_wheel_entries.yml
+Resources/Prototypes/_Goobstation/Roles/GhostRoles/Fun/hecu.yml
+Resources/Prototypes/_Goobstation/SoundCollections/footsteps.yml
+Resources/Textures/Interface/halflife.png
+Resources/Textures/Interface/hecu.png
+Resources/Textures/_Goobstation/Clothing/Uniforms/Jumpsuit/hecu.rsi/equipped-INNERCLOTHING.png
+Resources/Textures/_Goobstation/Clothing/Uniforms/Jumpsuit/hecu.rsi/icon.png
+Resources/keybinds.yml

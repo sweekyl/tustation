@@ -207,6 +207,19 @@
   #  layers:
   #    Hair: HEAD
 
+- type: entity
+  parent: [ ClothingHeadHelmetArmoredBase, BaseMajorContraband ]
+  id: ClothingHeadHelmetHecu
+  name: hecu helmet
+  description: The combat helmet is commonly used by mercenaries, is strong, light and smells like gunpowder and the jungle.
+  components:
+  - type: Sprite
+    sprite: _Goobstation/Clothing/Head/Helmets/hecuhelmet.rsi
+    state: icon
+  - type: Clothing
+    slots: [ head ]
+    # Здесь не должно быть строки sprite
+
 #SWAT Helmet
 - type: entity
   parent: [ClothingHeadHelmetBase, BaseSecurityContraband, ClothingHeadHelmetBaseFoldable] # Goob - ClothingHeadHelmetBaseFoldable

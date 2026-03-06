@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Content.Goobstation.Shared.PhraseWheel;
 using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
@@ -8,6 +10,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Console;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using System.Linq;
 
 namespace Content.Goobstation.Server.PhraseWheel;
 
@@ -23,7 +26,15 @@ public sealed class PhraseWheelSystem : EntitySystem
     {
         base.Initialize();
         SubscribeNetworkEvent<PlayPhraseWheelMessage>(OnPlayPhrase);
-        _console.RegisterCommand("phrasewheel", PhraseWheelCommand);
+
+        // phrasewheel <ник> [категория1] [категория2] ...
+        // phrasewheel <ник>          — выдать/забрать доступ ко всем категориям
+        // phrasewheel <ник> HECU     — только раздел HECU
+        // phrasewheel <ник> HECU Медики — разделы HECU и Медики
+        _console.RegisterCommand("phrasewheel",
+            "phrasewheel <ник> [категория...] — выдать/забрать доступ к меню фраз",
+            "phrasewheel <ник> [категория...]",
+            PhraseWheelCommand);
     }
 
     private void OnPlayPhrase(PlayPhraseWheelMessage msg, EntitySessionEventArgs args)
@@ -31,23 +42,22 @@ public sealed class PhraseWheelSystem : EntitySystem
         var player = args.SenderSession.AttachedEntity;
         if (player == null) return;
 
-        // Проверяем что у игрока есть доступ
-        if (!HasComp<PhraseWheelComponent>(player.Value)) return;
-
+        if (!TryComp<PhraseWheelComponent>(player.Value, out var comp)) return;
         if (!_proto.TryIndex<PhraseWheelEntryPrototype>(msg.PhraseId, out var phrase)) return;
 
-        // Говорим фразу в чат
+        // Проверяем что игрок имеет доступ к этой категории
+        if (comp.AllowedCategories.Count > 0 && !comp.AllowedCategories.Contains(phrase.Category))
+            return;
+
         var chatType = phrase.ChatType switch
         {
             PhraseWheelChatType.Whisper => InGameICChatType.Whisper,
             PhraseWheelChatType.Emote   => InGameICChatType.Emote,
-            PhraseWheelChatType.Shout   => InGameICChatType.Speak,
             _                           => InGameICChatType.Speak,
         };
 
         _chat.TrySendInGameICMessage(player.Value, phrase.Text, chatType, false);
 
-        // Играем звук если есть
         if (phrase.Sound != null)
         {
             try
@@ -59,14 +69,14 @@ public sealed class PhraseWheelSystem : EntitySystem
         }
     }
 
-    /// <summary>
-    /// phrasewheel [ник] — выдаёт или забирает доступ к колесу фраз
-    /// </summary>
     private void PhraseWheelCommand(IConsoleShell shell, string argStr, string[] args)
     {
         if (args.Length < 1)
         {
-            shell.WriteError("Использование: phrasewheel <ник>");
+            shell.WriteError("Использование: phrasewheel <ник> [категория1] [категория2] ...");
+            shell.WriteLine("Без категорий — выдаёт/забирает доступ ко всем фразам.");
+            shell.WriteLine("С категориями — выдаёт доступ только к указанным разделам.");
+            shell.WriteLine("Пример: phrasewheel Vasya HECU Медики");
             return;
         }
 
@@ -90,15 +100,36 @@ public sealed class PhraseWheelSystem : EntitySystem
 
         var uid = targetSession.AttachedEntity.Value;
 
+        // Собираем категории из аргументов (начиная с args[1])
+        var categories = args.Skip(1).ToList();
+
         if (HasComp<PhraseWheelComponent>(uid))
         {
-            RemComp<PhraseWheelComponent>(uid);
-            shell.WriteLine($"Доступ к колесу фраз ЗАБРАН у {name}.");
+            var existing = Comp<PhraseWheelComponent>(uid);
+
+            // Если категории не указаны — полностью убрать доступ
+            if (categories.Count == 0)
+            {
+                RemComp<PhraseWheelComponent>(uid);
+                shell.WriteLine($"Доступ к меню фраз ЗАБРАН у {name}.");
+                return;
+            }
+
+            // Если категории указаны — обновить список
+            existing.AllowedCategories = categories;
+            Dirty(uid, existing);
+            shell.WriteLine($"Доступ к категориям [{string.Join(", ", categories)}] ОБНОВЛЁН у {name}.");
         }
         else
         {
-            EnsureComp<PhraseWheelComponent>(uid);
-            shell.WriteLine($"Доступ к колесу фраз ВЫДАН игроку {name}.");
+            var newComp = EnsureComp<PhraseWheelComponent>(uid);
+            newComp.AllowedCategories = categories;
+            Dirty(uid, newComp);
+
+            if (categories.Count == 0)
+                shell.WriteLine($"Доступ ко ВСЕМ фразам ВЫДАН игроку {name}.");
+            else
+                shell.WriteLine($"Доступ к категориям [{string.Join(", ", categories)}] ВЫДАН игроку {name}.");
         }
     }
 }

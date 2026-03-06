@@ -25,17 +25,10 @@
   id: HECUOperativeGear
   equipment:
     jumpsuit: ClothingUniformHecu
-    back: ClothingBackpackMercFilledHECU
-    mask: ClothingMaskGasExplorer
-    eyes: ClothingEyesGlassesMedSec
+    mask: ClothingMaskGasHecu
     ears: ClothingHeadsetAltCentCom
     gloves: ClothingHandsGlovesCombat
-    outerClothing: ClothingOuterVestWeb
+    outerClothing: ClothingOuterVestHecu
     shoes: ClothingShoesBootsCombatFilled
-    head: ClothingHeadHelmetMerc
+    head: ClothingHeadHelmetHecu
     id: HecuPDA
-    belt: ClothingBeltMercWebbing
-    pocket1: MagazinePistolSubMachineGun
-    pocket2: MagazinePistolSubMachineGun
-  inhand:
-  - WeaponSubMachineGunDrozd

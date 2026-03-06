@@ -92,7 +92,7 @@ namespace Content.Shared.Movement.Components
         ? (HeldMoveButtons & MoveButtons.Walk) != 0x0
         : (HeldMoveButtons & MoveButtons.Walk) == 0x0;
         
-        public bool DefaultSprinting = true;
+        public bool DefaultSprinting = false;
 
         [ViewVariables(VVAccess.ReadWrite)]
         public bool CanMove = true;

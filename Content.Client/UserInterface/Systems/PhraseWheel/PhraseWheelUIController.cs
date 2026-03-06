@@ -1,12 +1,20 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 using Content.Client.Gameplay;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.MenuBar.Widgets;
 using Content.Goobstation.Shared.PhraseWheel;
+using Content.Shared.Input; // Для ContentKeyFunctions
 using JetBrains.Annotations;
+using Robust.Client.Input;
 using Robust.Client.Player;
+using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface.Controls;
+using Robust.Shared.Input;
+using Robust.Shared.Input.Binding;
 using Robust.Shared.Prototypes;
+using System.Linq;
 
 namespace Content.Client.UserInterface.Systems.PhraseWheel;
 
@@ -16,19 +24,26 @@ public sealed class PhraseWheelUIController : UIController, IOnStateChanged<Game
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly IResourceCache _resCache = default!;
 
     private MenuButton? PhraseButton =>
-        UIManager.GetActiveUIWidgetOrNull<Content.Client.UserInterface.Systems.MenuBar.Widgets.GameTopMenuBar>()?.PhraseWheelButton;
+        UIManager.GetActiveUIWidgetOrNull<GameTopMenuBar>()?.PhraseWheelButton;
 
-    private SimpleRadialMenu? _menu;
+    private PhraseWheelWindow? _window;
 
     public void OnStateEntered(GameplayState state)
     {
+        // Хоткей — клавиша открывает/закрывает меню
+        CommandBinds.Builder
+            .Bind(ContentKeyFunctions.OpenPhraseWheel,
+                InputCmdHandler.FromDelegate(_ => ToggleWindow()))
+            .Register<PhraseWheelUIController>();
     }
 
     public void OnStateExited(GameplayState state)
     {
-        CloseMenu();
+        CommandBinds.Unregister<PhraseWheelUIController>();
+        CloseWindow();
     }
 
     public void LoadButton()
@@ -52,78 +67,57 @@ public sealed class PhraseWheelUIController : UIController, IOnStateChanged<Game
                                _entityManager.HasComponent<PhraseWheelComponent>(player.Value);
     }
 
-    private void OnButtonPressed(BaseButton.ButtonEventArgs args)
-    {
-        ToggleMenu();
-    }
+    private void OnButtonPressed(BaseButton.ButtonEventArgs args) => ToggleWindow();
 
-    private void ToggleMenu()
+    private void ToggleWindow()
     {
-        if (_menu != null)
+        if (_window != null)
         {
-            CloseMenu();
+            CloseWindow();
             return;
         }
 
         var player = _playerManager.LocalSession?.AttachedEntity;
-        if (player == null || !_entityManager.HasComponent<PhraseWheelComponent>(player.Value))
+        if (player == null || !_entityManager.TryGetComponent<PhraseWheelComponent>(player.Value, out var comp))
             return;
 
-        var phrases = _prototypeManager.EnumeratePrototypes<PhraseWheelEntryPrototype>();
-        var buttons = new List<RadialMenuOption>();
+        // Фильтруем фразы по разрешённым категориям
+        var allPhrases = _prototypeManager.EnumeratePrototypes<PhraseWheelEntryPrototype>();
+        var filtered = comp.AllowedCategories.Count == 0
+            ? allPhrases
+            : allPhrases.Where(p => comp.AllowedCategories.Contains(p.Category));
 
-        foreach (var phrase in phrases)
-        {
-            var captured = phrase;
-            var label = string.IsNullOrEmpty(phrase.Label) ? phrase.Text : phrase.Label;
-            if (label.Length > 20) label = label[..20] + "...";
-
-            var option = new RadialMenuActionOption<PhraseWheelEntryPrototype>(HandleClick, captured)
-            {
-                Sprite = captured.Icon,
-                ToolTip = phrase.Text,
-            };
-            buttons.Add(option);
-        }
-
-        if (buttons.Count == 0) return;
-
-        _menu = new SimpleRadialMenu();
-        _menu.SetButtons(buttons);
-        _menu.OnClose += OnMenuClosed;
-        _menu.OnOpen += OnMenuOpen;
-        _menu.OpenCentered();
-
-        if (PhraseButton != null)
-            PhraseButton.SetClickPressed(true);
+        _window = new PhraseWheelWindow(filtered, _resCache);
+        _window.OnPhraseSelected += HandlePhraseSelected;
+        _window.OnClose += OnWindowClosed;
+        _window.OnOpen += OnWindowOpen;
+        _window.OpenCentered();
     }
 
-    private void HandleClick(PhraseWheelEntryPrototype phrase)
+    private void HandlePhraseSelected(PhraseWheelEntryPrototype phrase)
     {
         _entityManager.RaisePredictiveEvent(new PlayPhraseWheelMessage { PhraseId = phrase.ID });
-        CloseMenu();
     }
 
-    private void OnMenuClosed()
+    private void OnWindowClosed()
     {
         if (PhraseButton != null) PhraseButton.Pressed = false;
-        CloseMenu();
+        CloseWindow();
     }
 
-    private void OnMenuOpen()
+    private void OnWindowOpen()
     {
         if (PhraseButton != null) PhraseButton.Pressed = true;
     }
 
-    private void CloseMenu()
+    private void CloseWindow()
     {
-        if (_menu == null) return;
-        _menu.OnClose -= OnMenuClosed;
-        _menu.OnOpen -= OnMenuOpen;
-        _menu.Dispose();
-        _menu = null;
-
-        if (PhraseButton != null)
-            PhraseButton.SetClickPressed(false);
+        if (_window == null) return;
+        _window.OnPhraseSelected -= HandlePhraseSelected;
+        _window.OnClose -= OnWindowClosed;
+        _window.OnOpen -= OnWindowOpen;
+        _window.Dispose();
+        _window = null;
+        if (PhraseButton != null) PhraseButton.SetClickPressed(false);
     }
 }

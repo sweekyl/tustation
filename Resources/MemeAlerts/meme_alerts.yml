@@ -1,0 +1,46 @@
+# Конфигурация MemeAlerts для SS14
+# Вызов: admemealert <ключ>
+#
+# Поля:
+#   message        — текст объявления
+#   sender         — заголовок (вместо "Центральное командование")
+#   color          — цвет текста (hex)
+#   announce_sound — звук при появлении
+#   during_sound   — звук сразу после (null = выключено)
+
+alerts:
+
+  test:
+    message: "Тестовое оповещение! Просто проверка."
+    sender: "Системное сообщение"
+    color: "#3399ff"
+    announce_sound: "/Audio/Announcements/announce.ogg"
+    during_sound: null
+
+  nuclear:
+    message: "ЯДЕРНОЕ УСТРОЙСТВО АКТИВИРОВАНО! У вас есть 5 минут до детонации."
+    sender: "Служба безопасности"
+    color: "#ff2200"
+    announce_sound: "/Audio/Announcements/war.ogg"
+    during_sound: "/Audio/Effects/siren.ogg"
+
+  party:
+    message: "ВЕЧЕРИНКА НА СТАНЦИИ! Капитан объявляет свободное время. Все в бар!"
+    sender: "Капитан"
+    color: "#ffdd00"
+    announce_sound: "/Audio/Items/airhorn.ogg"
+    during_sound: null
+
+  clown_takeover:
+    message: "ХА-ХА-ХА! Клоун захватил командный мостик. Мы обречены."
+    sender: "Клоун"
+    color: "#cc44ff"
+    announce_sound: "/Audio/Items/bikehorn.ogg"
+    during_sound: null
+
+  asivoy:
+    message: "Яндекс Доставка! Жалоба от курьера!"
+    sender: "Тех-Поддержка"
+    color: "#FFFFFF"
+    announce_sound: "/Audio/Memealert/infozakaz.ogg"
+    during_sound: "/Audio/Memealert/pizza4.ogg"
