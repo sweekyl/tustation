@@ -24,6 +24,12 @@ public sealed class StunSystem : SharedStunSystem
 
     private readonly int[] _sign = [-1, 1];
 
+        public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<StunSystem>();
+    }
+
     public override void Initialize()
     {
         base.Initialize();
@@ -195,3 +201,4 @@ public enum StunVisualLayers : byte
 {
     StamCrit,
 }
+

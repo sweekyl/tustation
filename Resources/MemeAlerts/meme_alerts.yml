@@ -9,7 +9,6 @@
 #   during_sound   — звук сразу после (null = выключено)
 
 alerts:
-
   test:
     message: "Тестовое оповещение! Просто проверка."
     sender: "Системное сообщение"
@@ -39,8 +38,22 @@ alerts:
     during_sound: null
 
   asivoy:
-    message: "Яндекс Доставка! Жалоба от курьера!"
-    sender: "Тех-Поддержка"
+    message: "Авито Доставка! Жалоба от курьера! Пицца 4 сына доставка... ВЫ почему трубку не берёте Э!? Гандон конченный.. Пиццу принёсс пападьезд.. ТЫ чё бля молчишь э.. СУЧКа бля э. А!!?? Пицца 4 ССына Хуйня.. Э спустить забери какого хуя своем матизе. Э я пока ехал мащина матиз  брбррбб бпжэпэ... ВСЁ слоомался ебал твой рот!"
+    sender: "Курьер"
     color: "#FFFFFF"
     announce_sound: "/Audio/Memealert/infozakaz.ogg"
     during_sound: "/Audio/Memealert/pizza4.ogg"
+
+  blackmesaalert:
+    message: "Внимание, эта система объявлений теперь находится под военным командованием."
+    sender: "HECU Marines intercom announcement"
+    color: "#6B8E23"
+    announce_sound: "/Audio/Memealert/overhead_login00.ogg"
+    during_sound: "/Audio/Memealert/switchover.ogg"
+
+  blackmesaalert2:
+    message: "Внимание! Весь персонал обязан немедленно прекратить работу и ожидать дальнейших инструкций в жилых секторах. Сопротивление будет подавлено."
+    sender: "HECU Marines intercom announcement"
+    color: "#6B8E23"
+    announce_sound: "/Audio/Memealert/beep01.ogg"
+    during_sound: null

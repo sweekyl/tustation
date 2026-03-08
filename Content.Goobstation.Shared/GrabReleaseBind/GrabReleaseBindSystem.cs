@@ -19,6 +19,12 @@ public sealed class GrabReleaseBindSystem : EntitySystem
     [Dependency] private readonly PullingSystem _pullingSystem = default!;
 
     /// <inheritdoc/>
+        public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<GrabReleaseBindSystem>();
+    }
+
     public override void Initialize()
     {
         CommandBinds.Builder
@@ -35,3 +41,4 @@ public sealed class GrabReleaseBindSystem : EntitySystem
         _pullingSystem.TryStopPull(session.AttachedEntity.Value, pullable, session.AttachedEntity.Value);
     }
 }
+

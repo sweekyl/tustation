@@ -22,6 +22,12 @@ public sealed class RotatableSystem : EntitySystem
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
 
+        public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<RotatableSystem>();
+    }
+
     public override void Initialize()
     {
         SubscribeLocalEvent<FlippableComponent, GetVerbsEvent<Verb>>(AddFlipVerb);
@@ -211,3 +217,4 @@ public sealed class RotatableSystem : EntitySystem
         _transform.SetLocalRotation(ent.Owner, Angle.Zero);
     }
 }
+

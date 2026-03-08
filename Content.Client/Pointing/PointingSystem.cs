@@ -19,12 +19,19 @@ using Robust.Client.GameObjects;
 using Robust.Shared.GameStates;
 using Robust.Shared.Utility;
 using DrawDepth = Content.Shared.DrawDepth.DrawDepth;
+using Robust.Shared.Input.Binding;
 
 namespace Content.Client.Pointing;
 
 public sealed partial class PointingSystem : SharedPointingSystem
 {
     [Dependency] private readonly SpriteSystem _sprite = default!;
+
+        public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<PointingSystem>();
+    }
 
     public override void Initialize()
     {
@@ -94,3 +101,4 @@ public sealed partial class PointingSystem : SharedPointingSystem
         entity.Comp.EndTime = state.EndTime;
     }
 }
+

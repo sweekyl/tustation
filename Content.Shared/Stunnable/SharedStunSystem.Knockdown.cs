@@ -76,6 +76,12 @@ public abstract partial class SharedStunSystem
             .Register<SharedStunSystem>();
     }
 
+    public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<SharedStunSystem>();
+    }
+
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
@@ -599,3 +605,5 @@ public abstract partial class SharedStunSystem
 
     #endregion
 }
+
+

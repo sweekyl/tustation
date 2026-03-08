@@ -105,12 +105,12 @@ public sealed class MenuButton : ContainerButton
 
     private void OnKeyBindingChanged(IKeyBinding obj)
     {
-        _buttonLabel!.Text = BoundKeyHelper.ShortKeyName(_function);
+        try { _buttonLabel!.Text = BoundKeyHelper.ShortKeyName(_function); } catch { }
     }
 
     private void OnKeyBindingChanged()
     {
-        _buttonLabel!.Text = BoundKeyHelper.ShortKeyName(_function);
+        try { _buttonLabel!.Text = BoundKeyHelper.ShortKeyName(_function); } catch { }
     }
 
     protected override void StylePropertiesChanged()

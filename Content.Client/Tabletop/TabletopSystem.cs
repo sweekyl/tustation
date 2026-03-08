@@ -125,7 +125,13 @@ namespace Content.Client.Tabletop
         private DefaultWindow? _window; // Current open tabletop window (only allow one at a time)
         private EntityUid? _table; // The table entity of the currently open game session
 
-        public override void Initialize()
+            public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<TabletopSystem>();
+    }
+
+    public override void Initialize()
         {
             base.Initialize();
             UpdatesOutsidePrediction = true;

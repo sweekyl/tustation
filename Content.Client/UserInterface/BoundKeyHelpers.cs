@@ -32,13 +32,20 @@ public static class BoundKeyHelper
 
     private static string? DefaultShortKeyName(BoundKeyFunction keyFunction)
     {
-        var name = FormattedMessage.EscapeText(IoCManager.Resolve<IInputManager>().GetKeyFunctionButtonString(keyFunction));
+        IInputManager? inputManager2;
+        try { inputManager2 = IoCManager.Resolve<IInputManager>(); } catch { return null; }
+        var name = FormattedMessage.EscapeText(inputManager2.GetKeyFunctionButtonString(keyFunction));
         return name.Length > 3 ? null : name;
     }
 
     public static bool TryGetShortKeyName(BoundKeyFunction keyFunction, [NotNullWhen(true)] out string? name)
     {
-        if (IoCManager.Resolve<IInputManager>().TryGetKeyBinding(keyFunction, out var binding))
+        IInputManager? inputManager;
+        try { inputManager = IoCManager.Resolve<IInputManager>(); } catch { name = null; return false; }
+        bool hasBinding;
+        IKeyBinding? binding;
+        try { hasBinding = inputManager.TryGetKeyBinding(keyFunction, out binding); } catch { name = null; return false; }
+        if (hasBinding && binding != null)
         {
             // can't possibly fit a modifier key in the top button, so omit it
             var key = binding.BaseKey;
@@ -121,3 +128,6 @@ public static class BoundKeyHelper
         return false;
     }
 }
+
+
+

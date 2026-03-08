@@ -4,15 +4,11 @@ using Content.Client.Gameplay;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.MenuBar.Widgets;
 using Content.Goobstation.Shared.PhraseWheel;
-using Content.Shared.Input; // Для ContentKeyFunctions
 using JetBrains.Annotations;
-using Robust.Client.Input;
 using Robust.Client.Player;
 using Robust.Client.ResourceManagement;
 using Robust.Client.UserInterface.Controllers;
 using Robust.Client.UserInterface.Controls;
-using Robust.Shared.Input;
-using Robust.Shared.Input.Binding;
 using Robust.Shared.Prototypes;
 using System.Linq;
 
@@ -34,15 +30,10 @@ public sealed class PhraseWheelUIController : UIController, IOnStateChanged<Game
     public void OnStateEntered(GameplayState state)
     {
         // Хоткей — клавиша открывает/закрывает меню
-        CommandBinds.Builder
-            .Bind(ContentKeyFunctions.OpenPhraseWheel,
-                InputCmdHandler.FromDelegate(_ => ToggleWindow()))
-            .Register<PhraseWheelUIController>();
     }
 
     public void OnStateExited(GameplayState state)
     {
-        CommandBinds.Unregister<PhraseWheelUIController>();
         CloseWindow();
     }
 
@@ -121,3 +112,4 @@ public sealed class PhraseWheelUIController : UIController, IOnStateChanged<Game
         if (PhraseButton != null) PhraseButton.SetClickPressed(false);
     }
 }
+

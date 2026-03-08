@@ -67,6 +67,12 @@ public sealed class ProtectiveBladeSystem : EntitySystem
     public static readonly SoundSpecifier BladeBlockSound =
         new SoundPathSpecifier("/Audio/_Goobstation/Heretic/parry.ogg");
 
+        public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<ProtectiveBladeSystem>();
+    }
+
     public override void Initialize()
     {
         base.Initialize();
@@ -356,3 +362,4 @@ public sealed class ProtectiveBladeSystem : EntitySystem
         return true;
     }
 }
+

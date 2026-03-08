@@ -14,3 +14,4 @@ changelog-tab-title-Admin = Админское
 changelog-tab-title-Maps = Maps
 cmd-changelog-desc = Открывает историю изменений.
 cmd-changelog-help = Использование: changelog
+changelog-tab-title-Tulog = Обновления сервера

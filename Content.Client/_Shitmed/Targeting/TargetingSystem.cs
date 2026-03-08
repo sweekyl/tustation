@@ -28,6 +28,12 @@ public sealed class TargetingSystem : SharedTargetingSystem
     public event Action<TargetingComponent>? PartStatusStartup;
     public event Action<TargetingComponent>? PartStatusUpdate;
     public event Action? PartStatusShutdown;
+        public override void Shutdown()
+    {
+        base.Shutdown();
+        CommandBinds.Unregister<TargetingSystem>();
+    }
+
     public override void Initialize()
     {
         base.Initialize();
